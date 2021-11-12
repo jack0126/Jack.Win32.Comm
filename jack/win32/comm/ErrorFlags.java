@@ -39,7 +39,7 @@ interface ErrorFlags {
             case IE_HARDWARE: return "hardware not present";
             case IE_BYTESIZE: return "illegal byte size";
             case IE_BAUDRATE: return "unsupported baud rate";
-            default: return String.format("no description(%d)", err);
+            default: return "no description";
         }
     }
 }

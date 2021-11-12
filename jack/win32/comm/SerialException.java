@@ -11,6 +11,6 @@ public class SerialException extends IOException {
     }
     static void throwWinIOException() throws SerialException {
         int err = Kernel32.INSTANCE.GetLastError();
-        throw new SerialException(String.format("win-io-error: %s.", ErrorFlags.getDescription(err)));
+        throw new SerialException(String.format("win-io-error: %s(%d).", ErrorFlags.getDescription(err), err));
     }
 }
