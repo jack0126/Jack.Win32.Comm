@@ -180,36 +180,59 @@ class SerialStream {
         }
     }
 
-    private final byte[] lpReadBufferCache = new byte[1];
-    byte read() throws SerialException {
-        byte[] lpByteBuffer = lpReadBufferCache;
+    int read(byte[] lpByteBuffer, int offset, int size) throws SerialException {
+        if (lpByteBuffer == null) {
+            return 0;
+        }
+
+        int len = Math.min(Math.max(lpByteBuffer.length - offset, 0), Math.max(size, 0));
+        byte[] lpByte = new byte[1];
         IntByReference bytesRead = new IntByReference();
-        if (!Kernel32.INSTANCE.ReadFile(_handle, lpByteBuffer, 1, bytesRead, null)) {
-            int err = Kernel32.INSTANCE.GetLastError();
-            if (err == 6) {
-                _handle = null;
+
+        for(int count = 0; count < len; count++) {
+            bytesRead.setValue(0);
+            if (!Kernel32.INSTANCE.ReadFile(_handle, lpByte, 1, bytesRead, null)) {
+                int err = Kernel32.INSTANCE.GetLastError();
+                if (err == 6) {
+                    _handle = null;
+                }
+
+                if (err == 1121) {
+                    throw new SerialTimeoutException();
+                }
+
+                SerialException.throwWinIOException();
             }
 
-            if (err == 1121) {
+            if (bytesRead.getValue() == 0) {
                 throw new SerialTimeoutException();
             }
 
-            SerialException.throwWinIOException();
+            lpByteBuffer[offset + count] = lpByte[0];
         }
-
-        if (bytesRead.getValue() == 0) {
-            throw new SerialTimeoutException();
-        }
-        return lpByteBuffer[0];
+        return len;
     }
 
-    int write(byte[]bytes) throws SerialException {
-        if (bytes.length == 0) {
+    int write(byte[]bytes, int offset, int size) throws SerialException {
+        if (bytes == null) {
+            return 0;
+        }
+
+        byte[] lpByteBuffer;
+        if (offset == 0 && bytes.length == size) {
+            lpByteBuffer = bytes;
+        } else {
+            int len = Math.min(Math.max(bytes.length - offset, 0), Math.max(size, 0));
+            lpByteBuffer = new byte[len];
+            System.arraycopy(bytes, offset, lpByteBuffer, 0, len);
+        }
+
+        if (lpByteBuffer.length == 0) {
             return 0;
         }
 
         IntByReference bytesRead = new IntByReference();
-        if (!Kernel32.INSTANCE.WriteFile(_handle, bytes, bytes.length, bytesRead, null)) {
+        if (!Kernel32.INSTANCE.WriteFile(_handle, lpByteBuffer, lpByteBuffer.length, bytesRead, null)) {
             int err = Kernel32.INSTANCE.GetLastError();
             if (err == 6) {
                 _handle = null;

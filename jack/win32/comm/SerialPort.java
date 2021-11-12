@@ -114,16 +114,6 @@ public class SerialPort {
     }
 
     /**
-     * 从 SerialPort 输入缓冲区中同步读取一个字节。
-     * @return
-     * @throws SerialException
-     */
-    public byte read() throws SerialException {
-        checkPortOpened();
-        return internalSerialStream.read();
-    }
-
-    /**
      * 从 SerialPort 输入缓冲区读取一些字节并将那些字节写入字节数组中指定的偏移量处。
      * @param buf 接收缓冲区
      * @param offset 接收缓冲偏移量
@@ -133,14 +123,7 @@ public class SerialPort {
      */
     public int read(byte[]buf, int offset, int count) throws SerialException {
         checkPortOpened();
-        if (buf == null) {
-            return 0;
-        }
-        int len = Math.min(Math.max(buf.length - offset, 0), Math.max(count, 0));
-        for(int i = 0; i < len; i++) {
-            buf[offset + i] = internalSerialStream.read();
-        }
-        return len;
+        return internalSerialStream.read(buf, offset, count);
     }
 
     /**
@@ -153,19 +136,7 @@ public class SerialPort {
      */
     public int write(byte[] buf, int offset, int count) throws SerialException {
         checkPortOpened();
-        if (buf == null) {
-            return 0;
-        }
-        if (offset == 0 && buf.length == count) {
-            return internalSerialStream.write(buf);
-        }
-        int len = Math.min(Math.max(buf.length - offset, 0), Math.max(count, 0));
-        if (len == 0) {
-            return 0;
-        }
-        byte[]buffer = new byte[len];
-        System.arraycopy(buf, offset, buffer, 0, len);
-        return internalSerialStream.write(buffer);
+        return internalSerialStream.write(buf, offset, count);
     }
 
     /**
