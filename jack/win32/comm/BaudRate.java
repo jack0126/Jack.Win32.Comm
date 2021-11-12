@@ -23,7 +23,7 @@ public enum  BaudRate {
     BaudRate(int value) {
         this.value = value;
     }
-    public static BaudRate convert(int baudRate) {
+    public static BaudRate from(int baudRate) {
         switch (baudRate) {
             case 110: return CBR_110;
             case 300: return CBR_300;

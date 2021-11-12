@@ -10,7 +10,7 @@ enum  EscapeFunctions {
     ResetDev(7),   // Reset device if possible
     SetBreak(8),   // Set the device break line.
     ClrBreak(9);   // Clear the device break line.
-    public final int func;
+    final int func;
     EscapeFunctions(int func) {
         this.func = func;
     }
