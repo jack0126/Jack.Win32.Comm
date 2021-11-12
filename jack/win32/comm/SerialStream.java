@@ -3,6 +3,10 @@ package jack.win32.comm;
 import com.sun.jna.Pointer;
 import com.sun.jna.WString;
 import com.sun.jna.ptr.IntByReference;
+import jack.win32.comm.internal.ComStatStruct;
+import jack.win32.comm.internal.CommPropStruct;
+import jack.win32.comm.internal.CommTimeoutsStruct;
+import jack.win32.comm.internal.DCBStruct;
 
 class SerialStream {
     private Pointer _handle;

@@ -3,6 +3,7 @@ package jack.win32.comm;
 import com.sun.jna.*;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.win32.StdCallLibrary;
+import jack.win32.comm.internal.*;
 
 interface Kernel32 extends StdCallLibrary {
     Kernel32 INSTANCE = Native.loadLibrary("kernel32", Kernel32.class);
