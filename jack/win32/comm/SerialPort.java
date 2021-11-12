@@ -1,5 +1,4 @@
 package jack.win32.comm;
-
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -8,6 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @author Jack,1298809673@qq.com
+ * @version 1.0
+ * @since 1.8
+ */
 public class SerialPort {
 
     private String portName;
