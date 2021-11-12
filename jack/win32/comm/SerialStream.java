@@ -26,7 +26,7 @@ class SerialStream {
                 -1073741824, 0, null,
                 3, 0, null);
         if (safeFileHandle.equals(Kernel32.INVALID_HANDLE_VALUE)) {
-            throw new SerialException(ErrorFlags.getDescription(Kernel32.INSTANCE.GetLastError()));
+            SerialException.throwWinIOException();
         }
         try {
             int fileType = Kernel32.INSTANCE.GetFileType(safeFileHandle);
@@ -43,12 +43,9 @@ class SerialStream {
                 int lastWin32Error = Kernel32.INSTANCE.GetLastError();
                 if (lastWin32Error != 87 && lastWin32Error != 6) {
                     SerialException.throwWinIOException();
-                    //InternalResources.WinIOError(lastWin32Error, string.Empty);
-                    //goto IL_013d;
                 }
                 throw new SerialException("invalid serial port extended: " + portName);
             }
-            //IL_013d:
             if (commProp.dwMaxBaud != 0 && baudRate > commProp.dwMaxBaud) {
                 throw new SerialException("baudRate out of range,: " + baudRate);
             }
