@@ -19,8 +19,28 @@ public enum  BaudRate {
     CBR_115200(115200),
     CBR_128000(128000),
     CBR_256000(256000);
-    public final int value;
+    final int value;
     BaudRate(int value) {
         this.value = value;
+    }
+    public static BaudRate convert(int baudRate) {
+        switch (baudRate) {
+            case 110: return CBR_110;
+            case 300: return CBR_300;
+            case 600: return CBR_600;
+            case 1200: return CBR_1200;
+            case 2400: return CBR_2400;
+            case 4800: return CBR_4800;
+            case 9600: return CBR_9600;
+            case 14400: return CBR_14400;
+            case 19200: return CBR_19200;
+            case 38400: return CBR_38400;
+            case 56000: return CBR_56000;
+            case 57600: return CBR_57600;
+            case 115200: return CBR_115200;
+            case 128000: return CBR_128000;
+            case 256000: return CBR_256000;
+            default: throw new IllegalArgumentException(String.format("baudRate = %d", baudRate));
+        }
     }
 }

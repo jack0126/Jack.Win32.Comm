@@ -5,7 +5,7 @@ public enum  DataBit {
     Six(6),
     Seven(7),
     Eight(8);
-    public final byte value;
+    final byte value;
     DataBit(int value) {
         this.value = (byte)value;
     }

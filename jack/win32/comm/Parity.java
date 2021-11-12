@@ -6,7 +6,7 @@ public enum Parity {
     Even(2),
     Mark(3),
     Space(4);
-    public final byte value;
+    final byte value;
     Parity(int value){
         this.value = (byte)value;
     }

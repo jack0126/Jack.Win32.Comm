@@ -5,7 +5,7 @@ public enum Handshake {
     XOnXOff(1),
     RequestToSend(2),
     RequestToSendXOnXOff(3);
-    public final int code;
+    final int code;
     Handshake(int code) {
         this.code = code;
     }

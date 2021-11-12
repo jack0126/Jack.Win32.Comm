@@ -287,7 +287,7 @@ class SerialStream {
         if (!Kernel32.INSTANCE.GetCommModemStatus(_handle, num)) {
             SerialException.throwWinIOException();
         }
-        return (0x10 & num.getValue()) != 0;
+        return (ModemStatusFlags.MS_CTS_ON & num.getValue()) != 0;
     }
 
     boolean isDsrHolding() throws SerialException {
@@ -295,7 +295,7 @@ class SerialStream {
         if (!Kernel32.INSTANCE.GetCommModemStatus(_handle, num)) {
             SerialException.throwWinIOException();
         }
-        return (0x20 & num.getValue()) != 0;
+        return (ModemStatusFlags.MS_DSR_ON & num.getValue()) != 0;
     }
 
     boolean isCDHolding() throws SerialException {
@@ -303,7 +303,7 @@ class SerialStream {
         if (!Kernel32.INSTANCE.GetCommModemStatus(_handle, num)) {
             SerialException.throwWinIOException();
         }
-        return (0x80 & num.getValue()) != 0;
+        return (ModemStatusFlags.MS_RLSD_ON & num.getValue()) != 0;
     }
 
     int getReadTimeout() {
