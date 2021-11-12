@@ -1,11 +1,9 @@
 package jack.win32.comm;
-import com.sun.jna.Memory;
-import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author Jack,1298809673@qq.com
@@ -39,13 +37,13 @@ public class SerialPort {
      * @return
      */
     public static List<String>  getPortNames() {
-        Pointer lpBuffer = new Memory(1024);
+        int[] lpBuffer = new int[256];
         IntByReference lpCount = new IntByReference();
         KernelBase.INSTANCE.GetCommPorts(lpBuffer, 256, lpCount);
-
-        int[] buf = new int[lpCount.getValue()];
-        lpBuffer.read(0, buf, 0, buf.length);
-        return IntStream.of(buf).boxed().map(e -> "COM" + e).collect(Collectors.toList());
+        return Arrays.stream(lpBuffer, 0, lpCount.getValue())
+                .boxed()
+                .map(e -> "COM" + e)
+                .collect(Collectors.toList());
     }
 
     /**
