@@ -343,7 +343,7 @@ public class SerialPort {
      * @return
      */
     public boolean isRtsEnable() {
-        return isOpen() ? internalSerialStream.isRtsEnable() : rtsEnable;
+        return rtsEnable;
     }
 
     /**
