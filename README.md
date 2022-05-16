@@ -7,7 +7,7 @@ JNA实现的 Java串口通信工具类
 
 # Demo
 
-
+```java
 import jack.win32.comm.*;
 
 public class Demo
@@ -36,3 +36,4 @@ public class Demo
   }
   
 }
+```
